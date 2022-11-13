@@ -7,6 +7,7 @@
 #' @return df dataframe with transformations applied
 #' @examples
 #' \dontrun{eco.transform(df = data, transformation = 'pct_chg', lags = 1)}
+#' @export
 
 eco.transform <- function(df, transformation, lags) {
   '%notin%' <- Negate('%in%')

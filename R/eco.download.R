@@ -16,6 +16,7 @@
 #' @importFrom scales date_breaks date_format
 #' @examples
 #' \dontrun{eco.download(keys=c('UNRATE','PAYEMS'),  show.recession = 'y', time.series = 'y', periodicity='monthly')}
+#' @export 
 
 eco.download <-
   function(source,

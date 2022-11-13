@@ -19,6 +19,7 @@
 #' @param date.format Optional date format
 #' @examples
 #' \dontrun{ eco.plot(plot.type = 'line', df, x='date', y1= 'value.UNRATE')}
+#' @export
 
 eco.plot <-
   function(plot.type,

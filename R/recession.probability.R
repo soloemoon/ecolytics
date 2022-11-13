@@ -5,6 +5,7 @@
 #' @return graph
 #' @examples
 #' \dontrun{recession.probability('2000-01-01')}
+#' @export
 
 recession.probability <- function(start.date) {
   start.date <- ifelse(missing(start.date), '2000-01-01', start.date)
