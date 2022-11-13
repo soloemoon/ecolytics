@@ -39,7 +39,7 @@ eco.plot <-
            date.break,
            date.format) {
     # Set Default Values
-    plot_type <- ifelse(missing(plot_type), 'line', tolower(plot_type))
+    plot.type <- ifelse(missing(plot.type), 'line', tolower(plot.type))
     fill.value <- ifelse(missing(fill.value), 'NULL', fill.value)
     
     # Define color palette in future
