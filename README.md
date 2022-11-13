@@ -1,10 +1,10 @@
-# ecoMoon: Quickly download, transform, and visualize economic data
+# ecolytics: Quickly download, transform, visualize, and model economic data
 Package to download, transform, and visualize economic data. Fred and BLS data downloads are support thanks to the fredr and blsAPI packages, which the eco.download function is a wrapper for. 
 
 ## Installation
 This package is currently only available from GitHub.
 
-devtools::install_github("soloemoon/ecoMoon")
+devtools::install_github("soloemoon/ecolytics")
 
 # Functions Overview
 
