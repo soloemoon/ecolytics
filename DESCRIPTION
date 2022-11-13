@@ -1,0 +1,12 @@
+Package: ecoMoon
+Type: Package
+Title: Download, Transform, and visualize economic data
+Version: 1.0.0
+Author: Solomon Moon
+Maintainer: <soloemoon@gmail.com>
+Description: Download cleaned economic data and quickly create beautiful visuals.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
+Imports: fredr,purrr,reshape2,dplyr,lubridate,ggplot2,scales,tis,formattable,ggthemes,extrafont,xts,plyr,see
