@@ -53,5 +53,5 @@ eci_private
 eci_private_wages
 }
 \examples{
-df <-eco.download(c('UNRATE','PAYEMS'),  show.recession = 'y', time.series = 'y', periodicity='monthly')
+eco.download(c('UNRATE','PAYEMS'),  show.recession = 'y', time.series = 'y', periodicity='monthly')
 }
