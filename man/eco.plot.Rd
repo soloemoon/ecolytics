@@ -5,7 +5,7 @@
 \title{Plot Economic Data}
 \usage{
 eco.plot(
-  plot_type,
+  plot.type,
   df,
   x,
   y1,
@@ -24,7 +24,7 @@ eco.plot(
 )
 }
 \arguments{
-\item{plot_type}{Type of plot to create. Options are line, dual line, tri line, bar, and bar line}
+\item{plot.type}{Type of plot to create. Options are line, dual line, tri line, bar, and bar line}
 
 \item{df}{Dataframe containing economic data}
 
@@ -38,6 +38,8 @@ eco.plot(
 
 \item{labels.list}{List containing chart labs}
 
+\item{theme.list}{Optional List containing theme options}
+
 \item{stat}{Optional bar parameter}
 
 \item{bar.position}{Optional bar parameter}
@@ -48,20 +50,15 @@ eco.plot(
 
 \item{ycolor2}{Optional second y color}
 
+\item{ycolor3}{Optional third y color}
+
 \item{date.break}{# Optional date break ie '1 month'}
 
-\item{date.format}{Optional date format ie '%y'}
-
-\item{theme_list}{Optional List containing theme options}
-
-\item{ycolor}{3 Optional third y color}
-}
-\value{
-df dataframe with transformations applied
+\item{date.format}{Optional date format}
 }
 \description{
 Quickly plot economic data with recession bars
 }
 \examples{
-eco.plot(plot_type = 'line', df, x='date', y1= value.UNRATE)
+\dontrun{ eco.plot(plot.type = 'line', df, x='date', y1= 'value.UNRATE')}
 }

@@ -13,5 +13,5 @@ fred.api.key(key)
 Wrapper to set Fred API Key
 }
 \examples{
-fred.api.key(##########)
+\dontrun{fred.api.key('AAAAAA')}
 }

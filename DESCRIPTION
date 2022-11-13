@@ -8,5 +8,5 @@ Description: Download cleaned economic data and quickly create beautiful visuals
 License: MIT
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
-Imports: fredr,purrr,reshape2,dplyr,lubridate,ggplot2,scales,tis,formattable,ggthemes,extrafont,xts,plyr,see
+RoxygenNote: 7.2.2
+Imports: fredr,purrr,reshape2,dplyr,lubridate,ggplot2,scales,ggthemes,xts,plyr,see, stats, blsAPI, utils

@@ -20,5 +20,5 @@ df dataframe with transformations applied
 Quickly transform an entire economic dataset with a variety of transformations
 }
 \examples{
-eco.transform(df = data, transformation = 'pct_chg', lags = 1)
+\dontrun{eco.transform(df = data, transformation = 'pct_chg', lags = 1)}
 }

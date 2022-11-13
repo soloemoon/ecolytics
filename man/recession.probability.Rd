@@ -16,5 +16,5 @@ graph
 Compute and visualize the most recent recession probability
 }
 \examples{
-recession.probability('2000-01-01')
+\dontrun{recession.probability('2000-01-01')}
 }

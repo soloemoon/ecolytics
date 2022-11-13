@@ -25,33 +25,6 @@ df Cleaned dataframe is returned
 \description{
 fredr and blsAPI wrapper to download and format economic data.
 }
-\details{
-## BLS Data Codes
-labor_force
-employment
-unemployment_rate
-nonfarm_employment
-avg_weekly_hrs
-avg_weekly_hrs_nonsup
-nonfarm_productivity
-nonfarm_labor_costs
-nonfarm_hrly_compensation
-nonfarm_multi_productivity
-cpi_urban_80s
-cpu_urban_67
-core_cpi_u
-core_cpi_w
-ppi_final_sa
-ppi_final_ua
-ppi_final_core
-ppi_final_core_less_trade
-ppi_finished_goods_82
-imports_all_commodities
-exports_all_commodities
-employment_cost_index
-eci_private
-eci_private_wages
-}
 \examples{
-eco.download(c('UNRATE','PAYEMS'),  show.recession = 'y', time.series = 'y', periodicity='monthly')
+\dontrun{eco.download(keys=c('UNRATE','PAYEMS'),  show.recession = 'y', time.series = 'y', periodicity='monthly')}
 }
