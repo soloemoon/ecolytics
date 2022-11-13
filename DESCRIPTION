@@ -1,4 +1,4 @@
-Package: ecoMoon
+Package: ecolytics
 Type: Package
 Title: Download, Transform, and visualize economic data
 Version: 1.0.0
