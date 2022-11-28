@@ -8,7 +8,6 @@
 #' @param y2 Optional 2nd y axis
 #' @param y3 Optional 3rd y axis
 #' @param labels.list List containing chart labs
-#' @param theme.list Optional List containing theme options
 #' @param stat Optional bar parameter
 #' @param bar.position Optional bar parameter
 #' @param fill.value Optional bar parameter
@@ -29,7 +28,6 @@ eco.plot <-
            y2,
            y3,
            labels.list,
-           theme.list,
            stat,
            bar.position,
            fill.value,
@@ -50,49 +48,39 @@ eco.plot <-
     date.break <- ifelse(missing(date.break), '1 year', date.break)
     date.format <- ifelse(missing(date.format), '%y', date.format)
     
-    # Define Theme
-    theme_eco_moon <- function() {
-      ggplot2::theme_grey() %+replace%
-        ggplot2::theme(
-          legend.position = 'top',
-          legend.title = ggplot2::element_blank(),
-          legend.text = ggplot2::element_text(size = 15),
-          axis.text.x = ggplot2::element_text(size = 12),
-          axis.text.y = ggplot2::element_text(size = 12),
-          axis.title = ggplot2::element_text(size = 12),
-          plot.caption = ggplot2::element_text(size = 10),
-          plot.title = ggplot2::element_text(size = 20, hjust = .5)
-        )
-    }
-    
-    theme.list <-
-      ifelse(missing(theme.list), theme_eco_moon, theme.list)
-    
     # Define Labels
     label_eco_moon <- list(title = '')
     
     labels.list <-
-      ifelse(missing(labels.list), label_eco_moon, labels.list)
+      ifelse(missing(labels.list), label_eco_moon, do.call(labs, lab_list))
     
     # Create plot plot
     base_plot <- ggplot2::ggplot() +
-      theme_list +
-      ggplot2::labs(labels.list)
+      ggplot2::theme_bw() +
+      ggplot2::theme(
+        legend.position = 'top',
+        legend.title = ggplot2::element_blank(),
+        legend.text = ggplot2::element_text(size = 13),
+        axis.text.x = ggplot2::element_text(size = 12),
+        axis.text.y = ggplot2::element_text(size = 12),
+        axis.title = ggplot2::element_text(size = 12),
+        plot.caption = ggplot2::element_text(size = 10),
+        plot.title = ggplot2::element_text(size = 17, hjust = .5),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank() 
+      ) +
+      #ggplot2::labs(labels.list)
+      do.call(labs, lab_list)
     
     # Define Graph Function List
     line_list = function(df, xaxis, yaxis) {
       geom_list <-
         list(geom = 'line',
              data = df,
-             aes = list(x = {
-               {
-                 xaxis
-               }
-             }, y = {
-               {
-                 yaxis
-               }
-             }))
+             #aes = list(x = {{xaxis}}, y = {{yaxis}}))
+             aes = list(x = df[[xaxis]], y = df[[yaxis]]))
       return(geom_list)
     }
     
@@ -106,22 +94,14 @@ eco.plot <-
         # Define default bar parameters
         bar.position <-
           ifelse(missing(bar.position), 'dodge', bar.position) # GGPLOT 2 Options ie(dodge, stack,fill)
-        stat <- ifelse(missing(stat), 'identity', stat)
-        geom_list <-
-          list(
-            geom = 'bar',
-            position = bar.position ,
-            data = df,
-            aes = list(x = {
-              {
-                xaxis
-              }
-            }, y = {
-              {
-                yaxis
-              }
-            })
-          )
+          stat <- ifelse(missing(stat), 'identity', stat)
+          geom_list <-
+            list(
+              geom = 'bar',
+              position = bar.position ,
+              data = df,
+              #aes = list(x = {{xaxis}}, y = {{yaxis}}))
+              aes = list(x = df[[xaxis]], y = df[[yaxis]]))
         return(geom_list)
       }
     } else{
@@ -136,19 +116,8 @@ eco.plot <-
             geom = 'bar',
             position = bar.position ,
             data = df,
-            aes = list(x = {
-              {
-                xaxis
-              }
-            }, y = {
-              {
-                yaxis
-              }
-            }, fill = {
-              {
-                fill.value
-              }
-            })
+            #aes = list(x = {{xaxis}}, y = {{yaxis}}, fill = {{fill.value}})
+            aes = list(x = df[[xaxis]], y = df[[yaxis]], fill = df[[fill.value]])
           )
         return(geom_list)
       }
@@ -158,7 +127,8 @@ eco.plot <-
     if (plot.type == 'line') {
       eco_plot <- base_plot +
         see::geom_from_list(line_list(df, x, y1)) +
-        ggplot2::scale_color_manual(labels = c(y1), values = c(ycolor1))
+        ggplot2::scale_color_manual(labels = c(y1), values = c(ycolor1)) +
+        labs(labels.list)
       
     } else if (plot.type == 'dual line') {
       eco_plot <- base_plot +
@@ -172,8 +142,7 @@ eco.plot <-
         see::geom_from_list(line_list(df, x, y1)) +
         see::geom_from_list(line_list(df, x, y2)) +
         see::geom_from_list(line_list(df, x, y3)) +
-        ggplot2::scale_color_manual(values = c(ycolor1, ycolor2, ycolor3),
-                                    labels = c(y1, y2, y3))
+        ggplot2::scale_color_manual(values = c(ycolor1, ycolor2, ycolor3),labels = c(y1, y2, y3))
       
     } else if (plot.type == 'bar') {
       eco_plot <- base_plot +
