@@ -48,6 +48,15 @@ eco.plot <-
     date.break <- ifelse(missing(date.break), '1 year', date.break)
     date.format <- ifelse(missing(date.format), '%y', date.format)
     
+<<<<<<< HEAD
+=======
+    # Define Labels
+    label_eco_moon <- list(title = '')
+    
+    labels.list <-
+      ifelse(missing(labels.list), label_eco_moon, do.call(labs, lab_list))
+    
+>>>>>>> e65c5075d422d76c6f822a42cd0e7aebb173170c
     # Create plot plot
     base_plot <- ggplot2::ggplot() +
       ggplot2::theme_bw() +
@@ -66,7 +75,11 @@ eco.plot <-
         panel.grid.major.x = element_blank() 
       ) +
       #ggplot2::labs(labels.list)
+<<<<<<< HEAD
       do.call(labs, labels.list)
+=======
+      do.call(labs, lab_list)
+>>>>>>> e65c5075d422d76c6f822a42cd0e7aebb173170c
     
     # Define Graph Function List
     line_list = function(df, xaxis, yaxis) {
@@ -121,7 +134,12 @@ eco.plot <-
     if (plot.type == 'line') {
       eco_plot <- base_plot +
         see::geom_from_list(line_list(df, x, y1)) +
+<<<<<<< HEAD
         ggplot2::scale_color_manual(labels = c(y1), values = c(ycolor1)) 
+=======
+        ggplot2::scale_color_manual(labels = c(y1), values = c(ycolor1)) +
+        labs(labels.list)
+>>>>>>> e65c5075d422d76c6f822a42cd0e7aebb173170c
       
     } else if (plot.type == 'dual line') {
       eco_plot <- base_plot +
