@@ -28,7 +28,7 @@ eco.plot <-
            y2,
            y3,
            labels.list,
-           stat,
+           stat.value,
            bar.position,
            fill.value,
            ycolor1,
@@ -40,7 +40,7 @@ eco.plot <-
     plot.type <- ifelse(missing(plot.type), 'line', tolower(plot.type))
     fill.value <- ifelse(missing(fill.value), 'NULL', fill.value)
     bar.position <-ifelse(missing(bar.position), 'dodge', bar.position) # GGPLOT 2 Options ie(dodge, stack,fill)
-    stat <- ifelse(missing(stat), 'identity', stat)
+    stat.value <- ifelse(missing(stat.value), 'identity', stat.value)
     
     # Define color palette in future
     ycolor1 <- ifelse(missing(ycolor1), "#447099", ycolor1)
@@ -62,6 +62,7 @@ eco.plot <-
         axis.title = ggplot2::element_text(size = 12),
         plot.caption = ggplot2::element_text(size = 10),
         plot.title = ggplot2::element_text(size = 17, hjust = .5),
+        plot.subtitle = element_blank(),
         panel.border = element_blank(),
         panel.background = element_blank(),
         panel.grid.minor = element_blank(),
@@ -76,13 +77,14 @@ eco.plot <-
     }
     
     if (fill.value == 'NULL') {
-      bar_list = function(df,xaxis,yaxis,stat,bar.position,fill.value = NULL) {
-          geom_list <-geom_bar(aes(x=df[[xaxis]], y=df[[yaxis]]), position=bar.position)
+     
+      bar_list = function(df, xaxis, yaxis,  stat, bar.position, fill.value = NULL) {
+          geom_list <-geom_bar(aes(x=df[[xaxis]], y=df[[yaxis]]), position=bar.position, stat=stat.value)
         return(geom_list)
       }
     } else {
       bar_list = function(df, xaxis, yaxis, stat, bar.position) {
-        geom_list <-geom_bar(aes(x=df[[axis]], y=df[[yaxis]], fill = df[[fill.value]]), position = bar.position)
+        geom_list <-geom_bar(aes(x=df[[axis]], y=df[[yaxis]], fill = df[[fill.value]]), position = bar.position, stat=stat.value)
         return(geom_list)
       }
     }
@@ -108,12 +110,12 @@ eco.plot <-
       
     } else if (plot.type == 'bar') {
       eco_plot <- base_plot +
-        bar_list(df, x, y1, fill.value, bar.position) +
+        bar_list(df, x, y1, fill.value, bar.position, stat.value) +
         ggplot2::scale_fill_manual(values = c(ycolor1, ycolor2, ycolor3, "#419599", "#72994E"))
       
     } else if (plot.type == 'bar line') {
       eco_plot <- base_plot +
-        bar_list(df, x, y1, fill.value, bar.position) +
+        bar_list(df, x, y1, fill.value, bar.position, stat.value) +
         line_list(df, x, y2, ycolor2)
     }
     
