@@ -39,6 +39,8 @@ eco.plot <-
     # Set Default Values
     plot.type <- ifelse(missing(plot.type), 'line', tolower(plot.type))
     fill.value <- ifelse(missing(fill.value), 'NULL', fill.value)
+    bar.position <-ifelse(missing(bar.position), 'dodge', bar.position) # GGPLOT 2 Options ie(dodge, stack,fill)
+    stat <- ifelse(missing(stat), 'identity', stat)
     
     # Define color palette in future
     ycolor1 <- ifelse(missing(ycolor1), "#447099", ycolor1)
@@ -68,50 +70,19 @@ eco.plot <-
       do.call(labs, labels.list)
     
     # Define Graph Function List
-    line_list = function(df, xaxis, yaxis) {
-      geom_list <-
-        list(geom = 'line',
-             data = df,
-             #aes = list(x = {{xaxis}}, y = {{yaxis}}))
-             aes = list(x = df[[xaxis]], y = df[[yaxis]]))
+    line_list = function(df, xaxis, yaxis, clr) {
+      geom_list <-geom_line(aes(df[[xaxis]], y=df[[yaxis]], color = clr))
       return(geom_list)
     }
     
     if (fill.value == 'NULL') {
-      bar_list = function(df,
-                          xaxis,
-                          yaxis,
-                          stat,
-                          bar.position,
-                          fill.value = NULL) {
-        # Define default bar parameters
-        bar.position <-
-          ifelse(missing(bar.position), 'dodge', bar.position) # GGPLOT 2 Options ie(dodge, stack,fill)
-          stat <- ifelse(missing(stat), 'identity', stat)
-          geom_list <-
-            list(
-              geom = 'bar',
-              position = bar.position ,
-              data = df,
-              #aes = list(x = {{xaxis}}, y = {{yaxis}}))
-              aes = list(x = df[[xaxis]], y = df[[yaxis]]))
+      bar_list = function(df,xaxis,yaxis,stat,bar.position,fill.value = NULL) {
+          geom_list <-geom_bar(aes(x=df[[xaxis]], y=df[[yaxis]]), position=bar.position)
         return(geom_list)
       }
-    } else{
+    } else {
       bar_list = function(df, xaxis, yaxis, stat, bar.position) {
-        # Define default bar parameters
-        bar.position <-
-          ifelse(missing(bar.position), 'dodge', bar.position) # GGPLOT 2 Options ie(dodge, stack,fill)
-        stat <- ifelse(missing(stat), 'identity', stat)
-        
-        geom_list <-
-          list(
-            geom = 'bar',
-            position = bar.position ,
-            data = df,
-            #aes = list(x = {{xaxis}}, y = {{yaxis}}, fill = {{fill.value}})
-            aes = list(x = df[[xaxis]], y = df[[yaxis]], fill = df[[fill.value]])
-          )
+        geom_list <-geom_bar(aes(x=df[[axis]], y=df[[yaxis]], fill = df[[fill.value]]), position = bar.position)
         return(geom_list)
       }
     }
@@ -119,33 +90,31 @@ eco.plot <-
     # Create economic graphs based on the plot type
     if (plot.type == 'line') {
       eco_plot <- base_plot +
-        see::geom_from_list(line_list(df, x, y1)) +
-        ggplot2::scale_color_manual(labels = c(y1), values = c(ycolor1)) 
+        line_list(df, x, y1, ycolor1) +
+        scale_color_manual(labels= y1, values= ycolor1)
 
     } else if (plot.type == 'dual line') {
       eco_plot <- base_plot +
-        see::geom_from_list(line_list(df, x, y1)) +
-        see::geom_from_list(line_list(df, x, y2)) +
-        ggplot2::scale_color_manual(values = c(ycolor1, ycolor2),
-                                    labels = c(y1, y2))
+        line_list(df, x, y1, ycolor1) +
+        line_list(df, x, y2, ycolor2) +
+        scale_color_manual(labels= c(y1, y2), values = c(ycolor1, ycolor2))
       
     } else if (plot.type == 'tri line') {
       eco_plot <- base_plot +
-        see::geom_from_list(line_list(df, x, y1)) +
-        see::geom_from_list(line_list(df, x, y2)) +
-        see::geom_from_list(line_list(df, x, y3)) +
-        ggplot2::scale_color_manual(values = c(ycolor1, ycolor2, ycolor3),labels = c(y1, y2, y3))
+        line_list(df, x, y1, ycolor1) +
+        line_list(df, x, y2, ycolor2) +
+        line_list(df, x, y3, ycolor3) +
+        scale_color_manual(labels = c(y1, y2, y3), values = c(ycolor1, ycolor2, ycolor3))
       
     } else if (plot.type == 'bar') {
       eco_plot <- base_plot +
-        see::geom_from_list(bar_list(df, x, y1, fill.value, bar.position)) +
+        bar_list(df, x, y1, fill.value, bar.position) +
         ggplot2::scale_fill_manual(values = c(ycolor1, ycolor2, ycolor3, "#419599", "#72994E"))
       
     } else if (plot.type == 'bar line') {
       eco_plot <- base_plot +
-        see::geom_from_list(bar_list(df, x, y1, fill.value, bar.position))
-      see::geom_from_list(line_list(df, x, y2)) +
-        ggplot2::scale_color_manual(labels = c(y2), values = c(ycolor2))
+        bar_list(df, x, y1, fill.value, bar.position) +
+        line_list(df, x, y2, ycolor2)
     }
     
     if (inherits(x, 'Date') == TRUE) {
@@ -189,5 +158,4 @@ eco.plot <-
     } else {
       return(eco_plot)
     }
-    
   }
