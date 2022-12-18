@@ -55,9 +55,10 @@ Dictionary:
 Clean pre-formatted plots have been included. If the data set being plotted has recession bars present, the plots automatically display recession bars. Plots are based on GGPlot2 and GGTheme.
 
 ```
-data <-eco.download(keys = c('UNRATE', 'PAYEMS'), key.rename = c('UE','Payrolls'), shape = 'w', show.recession = 'y',time.series = 'n', periodicity = 'monthly') 
+data <-eco.download(keys = c('UNRATE', 'PAYEMS'), shape = 'w', show.recession = 'y',time.series = 'n', periodicity = 'monthly') 
 
-eco.plot(plot_type = 'line', df = data, x='date', y = 'Payrolls', y.title = 'Chg', title = 'NFP Change', caption = 'Source: Bureau of Labor Statistics', date.break = '5 year')
+
+eco.plot(plot_type = 'line', df = data, x='date', y = 'PAYEMS', y.title = 'Chg', title = 'NFP Change', caption = 'Source: Bureau of Labor Statistics', date.break = '5 year')
 ```
 Included plot types are:
    * single line - plot a single economic data series (line chart)
